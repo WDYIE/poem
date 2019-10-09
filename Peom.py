@@ -1,5 +1,6 @@
 import requests
 import json
+from faceWord import wordsAndTea,dictWord
 
 
 
@@ -14,8 +15,13 @@ def getPeom(text,index):
     dict_data = {'text': text, 'index': index}
     bodystr = json.dumps(dict_data)
     response = requests.post(url=url, headers=headers, data=bodystr)
-    str = response.content.decode('utf-8')
-    return str
+    str =json.loads(response.text)
+    if 'poem' in str:
+        poem = str['poem'][0]['content']
+        line = text+':'+poem
+        print(line)
+        return  poem,line
+    return ' ',' '
 def combine(words1,words2):
     res = []
     for s1 in words1:
@@ -42,19 +48,27 @@ def readto_dict():
             strs = strs[1:]
             birth_data[key]=strs
     return birth_data
+def allWords():
+    texts =[]
+    for keyStr in wordsAndTea.keys():
+        keys = keyStr.split(',')
+        value = wordsAndTea.get(keyStr)
+        for key in keys:
+            text = key+value
+            texts.append(text)
+    return texts
 
-
-print(getPeom("西湖龙井",index=0))
 
 
 allPeom={}
 allWord=["美丽",'可爱']
 allTitle = ['龙井','茉莉']
 
-res = combine(allWord,allTitle)
+# res = combine(allWord,allTitle)
+res = allWords()
 for text in res:
-    for i in range(10):
-       content = getPeom(text,i)
+    for i in range(20):
+       content,line = getPeom(text,i)
        if text in allPeom:
            arr = allPeom[text]
            arr.append(content)
@@ -63,7 +77,12 @@ for text in res:
            arr = allPeom[text]
            arr.append(content)
 
+
+
+
+
+
 savedict(allPeom)
 resn =readto_dict()
-print(resn)
+
 
