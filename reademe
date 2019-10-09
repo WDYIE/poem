@@ -1,0 +1,30 @@
+
+后台运行方法：
+nohup python3 app.py > /dev/null 2>&1
+https://www.cnblogs.com/jinxiao-pu/p/9131057.html
+
+
+写诗接口：
+http://47.94.129.187:8080/WritePoem
+调用方法：post
+传入图片，图片名字为file 如下代码：
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type= text name=index>
+      <input type=submit value=Upload>
+    </form>
+传入索引：index 表示需要第几首诗,可缺省，默认第0首
+返回json:
+ {"peom": "窗前明月光，疑似地上霜，举头望明月，低头思故乡", "code": "1", "imgUrl": "timg.jpg", "keyWord": "漂亮龙井"}
+
+ http://47.94.129.187:8080/ChangePoem/
+ 调用方法post:
+ 传入参数：
+     <form method=post enctype=multipart/form-data>
+      <input type= text name=keyword>
+      <input type= text name=index>
+      <input type=submit value=Upload>
+    </form>
+ 返回json:
+{"peom": "窗前明月光，疑似地上霜，举头望明月，低头思故乡", "code": "1", , "keyWord": "漂亮龙井",index=1}
+
